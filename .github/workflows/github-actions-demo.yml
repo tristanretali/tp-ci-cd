@@ -12,6 +12,8 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: python job.py
+        env:
+          SECRET_API_TOKEN: ${{ secrets.SECRET_API_TOKEN }}
       - run: echo "coucou depuis le runner" > output.txt
       - uses: actions/upload-artifact@v4
         with:
