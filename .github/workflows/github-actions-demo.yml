@@ -1,5 +1,6 @@
 name: GitHub Actions Demo
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: '* * * * *'
@@ -12,3 +13,15 @@ jobs:
         with:
           python-version: '3.x'
       - run: python -m unittest test_adition.py
+  SSH-Deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploiement de addition.py
+        env:
+          SSH_ADDRESS: ${{ secrets.SSH_ADDRESS }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sudo apt-get install -y sshpass
+          sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no addition.py "$SSH_ADDRESS":~/TR/addition.py
