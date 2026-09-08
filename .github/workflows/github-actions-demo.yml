@@ -10,6 +10,14 @@ jobs:
         with:
           python-version: '3.x'
       - run: python -m unittest test_adition.py
+  Docker-Run-Addition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build l'image Docker de addition.py
+        run: docker build -f Dockerfile.addition -t addition-app .
+      - name: Lancer le conteneur
+        run: docker run --rm addition-app
   SSH-Deploy:
     runs-on: ubuntu-latest
     steps:
